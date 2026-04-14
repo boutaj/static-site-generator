@@ -1,6 +1,6 @@
-from htmleafnode import LeafNode
-from textnode import TextNode, TextType
-from htmlnode import HTMLNode
+from nodes.htmleafnode import LeafNode
+from nodes.textnode import TextNode, TextType
+from nodes.htmlnode import HTMLNode
 
 
 print(TextNode("This is some anchor text", TextType.BOLD, "https://test.com"))
