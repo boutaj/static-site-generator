@@ -1,5 +1,10 @@
 import unittest
-from functions.split_nodes_delimiter import split_nodes_delimiter
+
+from functions.split_nodes import (
+    split_nodes_delimiter,
+    split_nodes_image,
+    split_nodes_link,
+)
 from nodes.textnode import TextNode, TextType
 
 
@@ -79,6 +84,34 @@ class TestInlineMarkdown(unittest.TestCase):
                 TextNode("This is text with a ", TextType.TEXT),
                 TextNode("code block", TextType.CODE),
                 TextNode(" word", TextType.TEXT),
+            ],
+            new_nodes,
+        )
+
+    def test_split_images(self):
+        node = TextNode(
+            "This is text with an ![image](https://i.imgur.com/zjjcJKZ.png)",
+            TextType.TEXT,
+        )
+        new_nodes = split_nodes_image([node])
+        self.assertListEqual(
+            [
+                TextNode("This is text with an ", TextType.TEXT),
+                TextNode("image", TextType.IMAGE, "https://i.imgur.com/zjjcJKZ.png"),
+            ],
+            new_nodes,
+        )
+
+    def test_split_links(self):
+        node = TextNode(
+            "This is a link [Click me](https://example.com)",
+            TextType.TEXT,
+        )
+        new_nodes = split_nodes_link([node])
+        self.assertListEqual(
+            [
+                TextNode("This is a link ", TextType.TEXT),
+                TextNode("Click me", TextType.LINK, "https://example.com"),
             ],
             new_nodes,
         )
